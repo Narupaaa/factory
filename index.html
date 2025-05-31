@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ข้อมูลโรงงาน DIW (เลือกดาวน์โหลดหลายไฟล์)</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500&family=Sarabun:wght@300;400;500&display=swap"
+        rel="stylesheet">
+
+    <!-- เพิ่ม CDN สำหรับ SheetJS และ JSZip ในส่วน head -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+    <style>
+        :root {
+            --primary: #1a5fb4;
+            --secondary: #26a269;
+            --accent: #ff7800;
+            --light: #f8f9fa;
+            --dark: #333;
+            --border: #dee2e6;
+        }
+
+        body {
+            font-family: 'Sarabun', 'Kanit', sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        #sidebar {
+            width: 300px;
+            background: #fff;
+            color: #333;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+            border-right: 1px solid var(--border);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            overflow-y: auto;
+            transition: all 0.3s;
+        }
+
+        #content {
+            width: calc(100% - 300px);
+            padding: 20px;
+            min-height: 100vh;
+            position: absolute;
+            top: 0;
+            right: 0;
+            overflow-y: auto;
+            background-color: #f8fafc;
+        }
+
+        .sidebar-header {
+            padding: 0 1rem 0.5rem 1rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 1rem;
+        }
+
+        .region-header {
+            background-color: #e9f2ff;
+            border-left: 3px solid var(--primary);
+            font-weight: 500;
+            padding: 0.75rem 1rem;
+        }
+
+        .province-header {
+            background-color: #f1f8ff;
+            border-left: 3px solid #4dabf7;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .list-group-item {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            border: none;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .district-view-link {
+            flex-grow: 1;
+            cursor: pointer;
+            margin-left: 0.5rem;
+            color: #333;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .district-view-link:hover {
+            color: var(--primary);
+        }
+
+        #excel-iframe-container {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            min-height: calc(100vh - 180px);
+            overflow: hidden;
+        }
+
+        #excel-iframe {
+            width: 100%;
+            height: calc(100vh - 200px);
+            border: none;
+        }
+
+        .search-highlight {
+            background-color: rgba(255, 230, 0, 0.4);
+            font-weight: 500;
+            padding: 0 2px;
+            border-radius: 3px;
+        }
+
+        .district-checkbox {
+            margin-right: 12px;
+            width: 18px;
+            height: 18px;
+        }
+
+        .card-header {
+            padding: .75rem 1.25rem;
+            background-color: #f1f8ff;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .toggler-icon::before {
+            font-family: "bootstrap-icons";
+            content: "\f282";
+            margin-right: 8px;
+            color: var(--accent);
+            font-size: 0.9em;
+        }
+
+        .toggler-icon[aria-expanded="true"]::before {
+            content: "\f286";
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .btn-success {
+            background-color: var(--secondary);
+            border-color: var(--secondary);
+        }
+
+        .btn-outline-secondary {
+            border-color: var(--border);
+        }
+
+        .header-card {
+            background: linear-gradient(135deg, #1a5fb4, #3584e4);
+            color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.5rem;
+        }
+
+        .header-card h1 {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .header-card p {
+            opacity: 0.9;
+            margin-bottom: 0;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.03);
+            border: none;
+            margin-bottom: 20px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .stat-icon {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .footer {
+            background-color: #fff;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 1.5rem;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.03);
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .progress-container {
+            margin-top: 1rem;
+        }
+
+        /* Mobile styles */
+        @media (max-width: 992px) {
+            #sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                max-height: 60vh;
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+            }
+
+            #content {
+                width: 100%;
+                position: relative;
+                padding: 15px;
+            }
+
+            #excel-iframe-container {
+                min-height: 400px;
+            }
+
+            #excel-iframe {
+                height: 500px;
+            }
+        }
+
+        .download-queue {
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 15px;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            padding: 10px;
+            background-color: #f8f9fa;
+        }
+
+        .queue-item {
+            padding: 8px;
+            border-bottom: 1px solid #e9ecef;
+            font-size: 0.85rem;
+            border-radius: 4px;
+            margin-bottom: 5px;
+            transition: all 0.3s;
+        }
+
+        .queue-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .queue-item.downloading {
+            background-color: #e6f7ff;
+            font-weight: 500;
+            border-left: 3px solid #1890ff;
+        }
+
+        .queue-item.completed {
+            background-color: #f6ffed;
+            border-left: 3px solid #52c41a;
+        }
+
+        .queue-item.failed {
+            background-color: #fff2f0;
+            border-left: 3px solid #ff4d4f;
+        }
+
+        .queue-status {
+            float: right;
+            font-weight: 500;
+        }
+
+        .download-success {
+            color: #52c41a;
+        }
+
+        .download-failed {
+            color: #ff4d4f;
+        }
+
+        .retry-btn {
+            padding: 2px 6px;
+            font-size: 0.75rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="d-flex flex-wrap">
+        <!-- Sidebar -->
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h4 class="mb-3 fw-bold text-primary"><i class="bi bi-geo-alt me-2"></i>เลือกพื้นที่</h4>
+                <div class="input-group mb-3">
+                    <span class="input-group-text bg-light"><i class="bi bi-search"></i></span>
+                    <input type="text" id="searchInput" class="form-control form-control-lg"
+                        placeholder="ค้นหาจังหวัดหรืออำเภอ...">
+                    <button class="btn btn-outline-secondary" type="button" id="clearSearchBtn"><i
+                            class="bi bi-x-lg"></i></button>
+                </div>
+
+                <div class="d-flex justify-content-between mt-2">
+                    <div class="form-text text-muted">
+                        <span id="districtCount">0</span> อำเภอที่เลือก
+                    </div>
+                    <div class="form-text">
+                        <span id="totalDistricts">0</span> อำเภอทั้งหมด
+                    </div>
+                </div>
+            </div>
+
+            <div id="locationAccordion" class="px-2">
+                <!-- Accordion Content -->
+            </div>
+
+            <div class="px-2 mt-3">
+                <div class="d-grid gap-2">
+                    <button class="btn btn-success btn-lg" id="downloadSelectedBtn" disabled>
+                        <i class="bi bi-download me-2"></i> ดาวน์โหลดไฟล์ที่เลือก
+                    </button>
+                </div>
+
+                <div class="d-flex justify-content-between mt-2">
+                    <button class="btn btn-outline-primary btn-sm flex-fill me-1" id="selectAllBtn">
+                        <i class="bi bi-check-square me-1"></i>เลือกทั้งหมด
+                    </button>
+                    <button class="btn btn-outline-danger btn-sm flex-fill ms-1" id="deselectAllBtn">
+                        <i class="bi bi-x-square me-1"></i>ยกเลิกทั้งหมด
+                    </button>
+                </div>
+
+                <div class="progress-container d-none">
+                    <div class="d-flex justify-content-between mb-1">
+                        <small class="text-muted">กำลังดาวน์โหลด...</small>
+                        <small><span id="progressCount">0</span>/<span id="totalCount">0</span></small>
+                    </div>
+                    <div class="progress" style="height: 8px;">
+                        <div id="downloadProgress" class="progress-bar progress-bar-striped progress-bar-animated"
+                            role="progressbar" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div class="progress-container d-none mt-3">
+                    <!-- แถบความคืบหน้าเดิม... -->
+
+                    <div class="download-queue mt-3 d-none" id="downloadQueue">
+                        <div class="text-center small text-muted mb-2">คิวดาวน์โหลด</div>
+                        <!-- ไฟล์ในคิวจะถูกเพิ่มที่นี่ -->
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <div id="content">
+            <div class="header-card p-4 mb-4">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h1 class="display-6 fw-bold mb-0">ข้อมูลโรงงานอุตสาหกรรม (DIW)</h1>
+                        <p class="mb-0">แสดงข้อมูลผ่าน Microsoft Office Online Viewer</p>
+                    </div>
+                    <div class="bg-white p-2 rounded-circle">
+                        <i class="bi bi-building text-primary fs-2"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <div class="stat-card p-3 text-center">
+                        <div class="stat-icon">
+                            <i class="bi bi-map"></i>
+                        </div>
+                        <h5 class="mb-1">77</h5>
+                        <p class="text-muted mb-0">จังหวัด</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-card p-3 text-center">
+                        <div class="stat-icon">
+                            <i class="bi bi-geo"></i>
+                        </div>
+                        <h5 class="mb-1">928</h5>
+                        <p class="text-muted mb-0">อำเภอ</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-card p-3 text-center">
+                        <div class="stat-icon">
+                            <i class="bi bi-building"></i>
+                        </div>
+                        <h5 class="mb-1">150,000+</h5>
+                        <p class="text-muted mb-0">โรงงาน</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="main-view-area mb-4">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"><i class="bi bi-file-earmark-spreadsheet me-2"></i> ข้อมูลโรงงาน</h5>
+                        <div class="form-text" id="currentDistrict">กรุณาเลือกอำเภอ</div>
+                    </div>
+                    <div class="card-body p-0">
+                        <div id="excel-iframe-container">
+                            <iframe id="excel-iframe" src="about:blank">
+                                <p>เบราว์เซอร์ของคุณไม่รองรับ iframes หรือมีปัญหาในการโหลดเนื้อหา</p>
+                            </iframe>
+                            <div id="iframe-placeholder"
+                                class="text-center p-5 d-flex justify-content-center align-items-center flex-column"
+                                style="height: 100%; background-color: #f8fafc;">
+                                <div class="bg-white p-4 rounded-circle shadow-sm mb-3">
+                                    <i class="bi bi-file-earmark-excel-fill text-success fs-1"></i>
+                                </div>
+                                <h4 class="text-muted mb-2">กรุณาเลือกอำเภอ</h4>
+                                <p class="text-muted">เลือกอำเภอจากเมนูด้านซ้ายเพื่อแสดงข้อมูลไฟล์ Excel</p>
+                                <div class="mt-3">
+                                    <button class="btn btn-outline-primary" id="browseFilesBtn">
+                                        <i class="bi bi-folder2-open me-2"></i>เรียกดูไฟล์ทั้งหมด
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h5 class="mb-3"><i class="bi bi-info-circle me-2"></i>เกี่ยวกับข้อมูล</h5>
+                        <p class="text-muted">ข้อมูลโรงงานอุตสาหกรรมจากกรมโรงงานอุตสาหกรรม (DIW)
+                            ถูกจัดเรียงตามจังหวัดและอำเภอ โดยข้อมูลจะแสดงผ่าน Microsoft Office Online Viewer
+                            ซึ่งทำให้สามารถดูไฟล์ Excel ได้โดยตรงในเบราว์เซอร์</p>
+                    </div>
+                    <div class="col-md-4 text-md-end">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMjQgMjQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzFhNWZiNCIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxwYXRoIGQ9Ik0xOSAyMUg1YTIgMiAwIDAgMS0yLTJWNWEyIDIgMCAwIDEgMi0yaDExbDUgNXYxMWEyIDIgMCAwIDEtMiAyWiI+PC9wYXRoPjxwYXRoIGQ9Ik0xNyAyMXYtNGEyIDIgMCAwIDAtMi0ySDkiPjwvcGF0aD48cGF0aCBkPSJNMTIgM3Y3bDItMiI+PC9wYXRoPjxwYXRoIGQ9Im0xMiA2IDIgMiI+PC9wYXRoPjwvc3ZnPg=="
+                            class="mb-2" width="60" alt="DIW Logo">
+                        <p class="mb-0 text-muted">© 2023 - ข้อมูลจาก กรมโรงงานอุตสาหกรรม (DIW)</p>
+                        <p class="mb-0 text-muted">แสดงผลโดย Microsoft Office Online Viewer</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="list.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            const $accordion = $('#locationAccordion');
+            const diwBaseUrl = "https://userdb.diw.go.th/factoryPublic/";
+            const $excelIframe = $('#excel-iframe');
+            const $iframePlaceholder = $('#iframe-placeholder');
+            const $searchInput = $('#searchInput');
+            const $clearSearchBtn = $('#clearSearchBtn');
+            const $downloadSelectedBtn = $('#downloadSelectedBtn');
+            const $selectAllBtn = $('#selectAllBtn');
+            const $deselectAllBtn = $('#deselectAllBtn');
+            const $districtCount = $('#districtCount');
+            const $totalDistricts = $('#totalDistricts');
+            const $currentDistrict = $('#currentDistrict');
+            const $progressBar = $('#downloadProgress');
+            const $progressCount = $('#progressCount');
+            const $totalCount = $('#totalCount');
+            const $browseFilesBtn = $('#browseFilesBtn');
+            const $progressContainer = $('.progress-container');
+
+            // Calculate total districts
+            let totalDistricts = 0;
+            locationData.forEach(region => {
+                region.provinces.forEach(province => {
+                    totalDistricts += province.districts.length;
+                });
+            });
+            $totalDistricts.text(totalDistricts);
+
+            // --- Function to build the Accordion ---
+            function buildAccordion(dataToRender) {
+                $accordion.empty();
+                let hasDistricts = false;
+                let visibleDistricts = 0;
+
+                if (!dataToRender || dataToRender.length === 0) {
+                    $accordion.html('<div class="alert alert-info text-center mt-3"><i class="bi bi-info-circle me-2"></i>ไม่พบข้อมูลที่ตรงกับการค้นหา</div>');
+                    $downloadSelectedBtn.prop('disabled', true);
+                    $selectAllBtn.prop('disabled', true);
+                    $deselectAllBtn.prop('disabled', true);
+                    return;
+                }
+
+                dataToRender.forEach((region, regionIndex) => {
+                    const regionId = region.id || `region-${regionIndex}`;
+
+                    const regionItem = $(`
+                        <div class="region-item mb-2">
+                            <div class="region-header d-flex justify-content-between align-items-center" 
+                                 data-bs-toggle="collapse" 
+                                 data-bs-target="#collapse-${regionId}" 
+                                 aria-expanded="false" 
+                                 aria-controls="collapse-${regionId}">
+                                <div>
+                                    <span class="toggler-icon"></span>
+                                    <span class="region-name fw-medium">${region.name}</span>
+                                </div>
+                                <i class="bi bi-chevron-down"></i>
+                            </div>
+                            <div class="collapse" id="collapse-${regionId}">
+                                <div class="provinces-container mt-2">
+                                    <!-- Provinces will be appended here -->
+                                </div>
+                            </div>
+                        </div>
+                    `);
+                    $accordion.append(regionItem);
+
+                    const $provincesContainer = regionItem.find('.provinces-container');
+                    if (region.provinces && region.provinces.length > 0) {
+                        region.provinces.forEach((province, provinceIndex) => {
+                            const provinceId = province.id || `province-${regionId}-${provinceIndex}`;
+                            let provinceHtml;
+
+                            if (province.districts && province.districts.length > 0) {
+                                provinceHtml = $(`
+                                    <div class="province-item">
+                                        <div class="province-header d-flex justify-content-between align-items-center" 
+                                             data-bs-toggle="collapse" 
+                                             data-bs-target="#collapse-${provinceId}" 
+                                             aria-expanded="false" 
+                                             aria-controls="collapse-${provinceId}">
+                                            <div>
+                                                <span class="toggler-icon"></span>
+                                                <span class="province-name">${province.name}</span>
+                                            </div>
+                                            <i class="bi bi-chevron-down"></i>
+                                        </div>
+                                        <div class="collapse" id="collapse-${provinceId}">
+                                            <div class="districts-container mt-2 ms-3">
+                                                <!-- Districts will be appended here -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                `);
+                                $provincesContainer.append(provinceHtml);
+
+                                const $districtsContainer = provinceHtml.find('.districts-container');
+                                province.districts.forEach(district => {
+                                    const districtFileName = `${province.provinceCode}-${district.districtCode}-${district.name.trim().replace(/\s+/g, '_')}.xls`;
+                                    const districtEntry = $(`
+                                        <div class="list-group-item district-entry">
+                                            <input type="checkbox" class="district-checkbox form-check-input"
+                                                   data-province-code="${province.provinceCode}"
+                                                   data-district-code="${district.districtCode}"
+                                                   data-filename="${districtFileName}">
+                                            <span class="district-view-link"
+                                                  data-province-code="${province.provinceCode}"
+                                                  data-district-code="${district.districtCode}"
+                                                  title="คลิกเพื่อดูข้อมูล ${district.name.trim()}">
+                                                <i class="bi bi-eye me-2 text-primary"></i>
+                                                <span class="district-name">${district.name.trim()}</span>
+                                            </span>
+                                        </div>
+                                    `);
+                                    $districtsContainer.append(districtEntry);
+                                    hasDistricts = true;
+                                    visibleDistricts++;
+                                });
+                            } else {
+                                provinceHtml = `
+                                    <div class="province-item">
+                                        <div class="text-muted px-3 py-2">
+                                            <i class="bi bi-folder me-2"></i> ${province.name} (ไม่มีข้อมูลอำเภอ)
+                                        </div>
+                                    </div>
+                                `;
+                                $provincesContainer.append(provinceHtml);
+                            }
+                        });
+                    } else {
+                        $provincesContainer.html('<div class="text-muted px-3 py-2"><i class="bi bi-exclamation-circle me-2"></i>ไม่มีข้อมูลจังหวัดในภูมิภาคนี้</div>');
+                    }
+                });
+
+                $selectAllBtn.prop('disabled', !hasDistricts);
+                $deselectAllBtn.prop('disabled', !hasDistricts);
+                updateDownloadButtonState();
+            }
+            buildAccordion(locationData);
+
+            // --- Update selected district count ---
+            function updateSelectedCount() {
+                const selectedCount = $accordion.find('.district-checkbox:checked').length;
+                $districtCount.text(selectedCount);
+            }
+
+            // --- Function to update Download Button State ---
+            function updateDownloadButtonState() {
+                const anyChecked = $accordion.find('.district-checkbox:checked').length > 0;
+                $downloadSelectedBtn.prop('disabled', !anyChecked);
+            }
+
+            // --- Event listener for Checkboxes ---
+            $accordion.on('change', '.district-checkbox', function () {
+                updateDownloadButtonState();
+                updateSelectedCount();
+            });
+
+            // --- Select All / Deselect All ---
+            $selectAllBtn.on('click', function () {
+                $accordion.find('.district-checkbox:visible').prop('checked', true);
+                updateDownloadButtonState();
+                updateSelectedCount();
+            });
+
+            $deselectAllBtn.on('click', function () {
+                $accordion.find('.district-checkbox').prop('checked', false);
+                updateDownloadButtonState();
+                updateSelectedCount();
+            });
+
+            // --- Search Functionality ---
+            $searchInput.on('keyup', function () {
+                const searchTerm = $(this).val().toLowerCase().trim();
+
+                if (searchTerm === "") {
+                    buildAccordion(locationData);
+                    $('.collapse').removeClass('show');
+                    updateDownloadButtonState();
+                    updateSelectedCount();
+                    return;
+                }
+
+                const filteredData = locationData.map(region => {
+                    const regionNameMatches = region.name.toLowerCase().includes(searchTerm);
+                    const filteredProvinces = region.provinces ? region.provinces.map(province => {
+                        const provinceNameMatches = province.name.toLowerCase().includes(searchTerm);
+                        const filteredDistricts = province.districts ? province.districts.filter(district =>
+                            district.name.toLowerCase().includes(searchTerm)
+                        ) : [];
+                        if (provinceNameMatches || filteredDistricts.length > 0) {
+                            return { ...province, districts: filteredDistricts };
+                        }
+                        return null;
+                    }).filter(p => p !== null) : [];
+
+                    if (regionNameMatches || filteredProvinces.length > 0) {
+                        return { ...region, provinces: filteredProvinces };
+                    }
+                    return null;
+                }).filter(r => r !== null);
+
+                buildAccordion(filteredData);
+
+                if (searchTerm) {
+                    $accordion.find('.region-name, .province-name, .district-name').each(function () {
+                        const $element = $(this);
+                        const originalText = $element.text();
+                        if (originalText.toLowerCase().includes(searchTerm)) {
+                            $element.html(originalText.replace(new RegExp(searchTerm, 'gi'), '<span class="search-highlight">$&</span>'));
+                        }
+                    });
+
+                    $('.region-item, .province-item').each(function () {
+                        const $element = $(this);
+                        if ($element.find('.search-highlight').length > 0) {
+                            $element.find('.collapse').addClass('show');
+                        }
+                    });
+                }
+                updateDownloadButtonState();
+                updateSelectedCount();
+            });
+
+            $clearSearchBtn.on('click', function () {
+                $searchInput.val('').trigger('keyup');
+                $excelIframe.attr('src', 'about:blank').hide();
+                $iframePlaceholder.html('<p class="text-muted">กรุณาเลือกอำเภอจากเมนูด้านซ้ายหรือค้นหาเพื่อแสดงข้อมูล...</p>').show();
+                $currentDistrict.text('กรุณาเลือกอำเภอ');
+            });
+
+            // --- Event listener for district VIEW links ---
+            $accordion.on('click', '.district-view-link', function (e) {
+                e.preventDefault();
+                const provinceCode = $(this).data('province-code');
+                const districtCode = $(this).data('district-code');
+                const districtName = $(this).find('.district-name').text().trim().replace("อ.", "อำเภอ");
+
+                const excelFileUrl = `${diwBaseUrl}${encodeURIComponent(provinceCode)}-${encodeURIComponent(districtCode)}-.xls`;
+                const officeViewerUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(excelFileUrl)}`;
+
+                $iframePlaceholder.html(`<div class="d-flex justify-content-center align-items-center flex-column" style="height: 100%;">
+                    <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <strong class="mt-3">กำลังโหลดข้อมูล ${districtName}...</strong>
+                    <p class="text-muted mt-2">กรุณารอสักครู่</p>
+                </div>`).show();
+                $excelIframe.hide();
+                $currentDistrict.html(`<i class="bi bi-geo-alt me-2"></i>${districtName}`);
+
+                setTimeout(() => {
+                    $excelIframe.attr('src', officeViewerUrl);
+                    $excelIframe.on('load', function () {
+                        $iframePlaceholder.hide();
+                        $excelIframe.show();
+                    });
+                }, 500);
+            });
+
+
+            // ประกาศตัวแปร downloadQueue
+            const $downloadQueue = $('#downloadQueue');
+
+            // --- Event listener for Download Selected Button ---
+            $downloadSelectedBtn.on('click', async function () {
+                const $checkedCheckboxes = $accordion.find('.district-checkbox:checked');
+                if ($checkedCheckboxes.length === 0) {
+                    showAlert('warning', 'กรุณาเลือกไฟล์', 'กรุณาเลือกไฟล์ที่ต้องการดาวน์โหลดอย่างน้อยหนึ่งไฟล์');
+                    return;
+                }
+
+                const filesToDownload = [];
+                $checkedCheckboxes.each(function () {
+                    const provinceCode = $(this).data('province-code');
+                    const districtCode = $(this).data('district-code');
+                    const fileName = $(this).data('filename') || `${provinceCode}-${districtCode}.xls`;
+                    const downloadUrl = `${diwBaseUrl}${provinceCode}-${districtCode}-.xls`;
+                    filesToDownload.push({
+                        url: downloadUrl,
+                        name: fileName,
+                        element: $(this)
+                    });
+                });
+
+                // แสดงแถบความคืบหน้า
+                $progressContainer.removeClass('d-none');
+                $progressCount.text(0);
+                $totalCount.text(filesToDownload.length);
+                $progressBar.css('width', '0%');
+
+                // สร้างคิวดาวน์โหลด
+                $downloadQueue.empty().removeClass('d-none');
+                filesToDownload.forEach(file => {
+                    const queueItem = $(`
+                <div class="queue-item" data-filename="${file.name}">
+                    <i class="bi bi-clock me-2"></i> ${file.name}
+                    <span class="queue-status"></span>
+                </div>
+            `);
+                    $downloadQueue.append(queueItem);
+                });
+
+                // แสดงการแจ้งเตือน
+                const alert = showAlert('info', `กำลังดาวน์โหลดและแปลงไฟล์ ${filesToDownload.length} ไฟล์`, 'โปรดรอสักครู่...');
+
+                let downloadedCount = 0;
+                let failedCount = 0;
+                const zip = new JSZip();
+
+                // ฟังก์ชั่นดาวน์โหลดไฟล์แบบเป็นลำดับ
+                const downloadAndConvertSequentially = async () => {
+                    for (let i = 0; i < filesToDownload.length; i++) {
+                        const file = filesToDownload[i];
+
+                        try {
+                            // อัพเดทสถานะในคิว
+                            $downloadQueue.find(`.queue-item[data-filename="${file.name}"]`)
+                                .removeClass('completed failed')
+                                .addClass('downloading')
+                                .find('.queue-status')
+                                .html(`<span class="text-primary">กำลังดาวน์โหลดและแปลง...</span>`);
+
+                            // ดาวน์โหลดไฟล์
+                            const data = await downloadFile(file.url);
+
+                            // แปลงไฟล์ Excel เป็น CSV
+                            const csvData = await convertXlsToCsv(data, file.name);
+
+                            // เพิ่มไฟล์ CSV ลงใน zip
+                            const csvFileName = file.name.replace('.xls', '.csv');
+                            zip.file(csvFileName, csvData);
+
+                            // อัพเดท UI เมื่อสำเร็จ
+                            downloadedCount++;
+                            $downloadQueue.find(`.queue-item[data-filename="${file.name}"]`)
+                                .removeClass('downloading')
+                                .addClass('completed')
+                                .find('.queue-status')
+                                .html(`<span class="download-success">แปลงเป็น CSV สำเร็จ <i class="bi bi-check-circle"></i></span>`);
+                        } catch (error) {
+                            // อัพเดท UI เมื่อล้มเหลว
+                            failedCount++;
+                            $downloadQueue.find(`.queue-item[data-filename="${file.name}"]`)
+                                .removeClass('downloading')
+                                .addClass('failed')
+                                .find('.queue-status')
+                                .html(`<span class="download-failed">ล้มเหลว 
+                            <button class="btn btn-sm btn-outline-danger retry-btn ms-2">
+                                <i class="bi bi-arrow-repeat"></i> ลองใหม่
+                            </button>
+                        </span>`);
+                        }
+
+                        // อัพเดทแถบความคืบหน้า
+                        const progressPercent = Math.round((downloadedCount + failedCount) / filesToDownload.length * 100);
+                        $progressCount.text(downloadedCount + failedCount);
+                        $progressBar.css('width', `${progressPercent}%`);
+
+                        // อัพเดทการแจ้งเตือน
+                        alert.find('.alert-body').html(`
+                    <strong>กำลังประมวลผลไฟล์ ${downloadedCount + failedCount} จาก ${filesToDownload.length}</strong>
+                    <div class="progress mt-2" style="height: 8px;">
+                        <div class="progress-bar" role="progressbar" style="width: ${progressPercent}%"></div>
+                    </div>
+                    <div class="mt-2 small">ไฟล์สำเร็จ: ${downloadedCount} | ไฟล์ล้มเหลว: ${failedCount}</div>
+                `);
+                    }
+
+                    // สร้างไฟล์ zip เมื่อแปลงไฟล์ครบทุกไฟล์
+                    if (downloadedCount > 0) {
+                        alert.find('.alert-body').html(`<strong>กำลังบีบอัดไฟล์ CSV...</strong><div class="mt-2">โปรดรอสักครู่</div>`);
+
+                        try {
+                            // สร้างไฟล์ zip
+                            const content = await zip.generateAsync({ type: 'blob' });
+
+                            // ดาวน์โหลดไฟล์ zip
+                            const url = URL.createObjectURL(content);
+                            const a = document.createElement('a');
+                            a.href = url;
+                            a.download = 'factory_data_csv.zip';
+                            document.body.appendChild(a);
+                            a.click();
+                            document.body.removeChild(a);
+                            URL.revokeObjectURL(url);
+
+                            // แจ้งเตือนสำเร็จ
+                            showAlert('success', 'ดาวน์โหลดสำเร็จ', `ไฟล์ CSV ทั้งหมดถูกบีบอัดเป็น ZIP และพร้อมดาวน์โหลด`);
+                        } catch (error) {
+                            showAlert('error', 'เกิดข้อผิดพลาด', 'ไม่สามารถสร้างไฟล์ ZIP ได้: ' + error.message);
+                        }
+                    } else {
+                        showAlert('error', 'เกิดข้อผิดพลาด', 'ไม่สามารถแปลงไฟล์ใดได้เลย');
+                    }
+
+                    // ดาวน์โหลดเสร็จสิ้น
+                    $progressBar.css('width', '100%');
+                    const message = failedCount > 0
+                        ? `<strong>ประมวลผลเสร็จสมบูรณ์ (มีข้อผิดพลาดบางไฟล์)!</strong>
+                   <div class="mt-2">ไฟล์ที่สำเร็จ: ${downloadedCount} | ไฟล์ที่ล้มเหลว: ${failedCount}</div>
+                   <div class="small mt-2">ไฟล์ CSV ที่แปลงสำเร็จถูกบีบอัดเป็น ZIP และดาวน์โหลดแล้ว</div>`
+                        : `<strong>ประมวลผลเสร็จสมบูรณ์!</strong>
+                   <div class="mt-2">ไฟล์ CSV ทั้งหมด ${downloadedCount} ไฟล์ถูกบีบอัดเป็น ZIP และดาวน์โหลดแล้ว</div>`;
+
+                    alert.find('.alert-body').html(message);
+                    alert.find('.btn-close').show();
+                };
+
+                // เริ่มดาวน์โหลดและแปลงไฟล์แบบเป็นลำดับ
+                downloadAndConvertSequentially();
+            });
+
+            // ฟังก์ชั่นดาวน์โหลดไฟล์
+            function downloadFile(url) {
+                return new Promise((resolve, reject) => {
+                    // ใช้ proxy เพื่อแก้ปัญหา CORS
+                    const proxyUrl = 'https://corsproxy.io/?';
+                    const fullUrl = proxyUrl + encodeURIComponent(url);
+
+                    fetch(fullUrl)
+                        .then(response => {
+                            if (!response.ok) throw new Error('Network response was not ok');
+                            return response.arrayBuffer();
+                        })
+                        .then(data => resolve(data))
+                        .catch(error => reject(error));
+                });
+            }
+
+            // ฟังก์ชั่นแปลงไฟล์ Excel เป็น CSV
+            // ฟังก์ชั่นแปลงไฟล์ Excel เป็น CSV
+            function convertXlsToCsv(arrayBuffer, filename) {
+                return new Promise((resolve, reject) => {
+                    try {
+                        // อ่านไฟล์ Excel
+                        const workbook = XLSX.read(arrayBuffer, { type: 'array' });
+
+                        // รับชื่อชีตแรก
+                        const firstSheetName = workbook.SheetNames[0];
+                        const worksheet = workbook.Sheets[firstSheetName];
+
+                        // แปลงเป็น CSV
+                        const csv = XLSX.utils.sheet_to_csv(worksheet, { FS: ',' });
+
+                        // เพิ่ม BOM สำหรับ UTF-8 เพื่อให้เปิดใน Excel ถูกต้อง
+                        const csvWithBom = '\uFEFF' + csv;
+
+                        resolve(csvWithBom);
+                    } catch (error) {
+                        reject(new Error(`ไม่สามารถแปลงไฟล์ ${filename} เป็น CSV: ${error.message}`));
+                    }
+                });
+            }
+
+            // รองรับการลองดาวน์โหลดใหม่
+            $(document).on('click', '.retry-btn', function () {
+                const $queueItem = $(this).closest('.queue-item');
+                const filename = $queueItem.data('filename');
+                const $checkbox = $accordion.find(`.district-checkbox[data-filename="${filename}"]`);
+
+                if ($checkbox.length) {
+                    $checkbox.prop('checked', true);
+                    $downloadSelectedBtn.click();
+                }
+            });
+
+            // --- Show alert function ---
+            function showAlert(type, title, message) {
+                const alertId = 'custom-alert-' + Date.now();
+                const alert = $(`
+                    <div id="${alertId}" class="alert alert-${type} alert-dismissible fade show position-fixed top-3 start-50 translate-middle-x" style="z-index: 1100; min-width: 350px;" role="alert">
+                        <div class="d-flex">
+                            <div class="flex-shrink-0 me-3">
+                                ${type === 'success' ? '<i class="bi bi-check-circle-fill fs-4"></i>' :
+                        type === 'warning' ? '<i class="bi bi-exclamation-triangle-fill fs-4"></i>' :
+                            type === 'danger' ? '<i class="bi bi-x-circle-fill fs-4"></i>' :
+                                '<i class="bi bi-info-circle-fill fs-4"></i>'}
+                            </div>
+                            <div class="flex-grow-1">
+                                <h5 class="alert-heading mb-1">${title}</h5>
+                                <div class="alert-body">${message}</div>
+                            </div>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    </div>
+                `);
+
+                $('body').append(alert);
+
+                // Auto dismiss after 5 seconds for info alerts
+                if (type === 'info') {
+                    setTimeout(() => {
+                        $('#' + alertId).alert('close');
+                    }, 5000);
+                }
+
+                return alert;
+            }
+
+            // --- Browse all files button ---
+            $browseFilesBtn.on('click', function () {
+                // Show all regions and provinces
+                $accordion.find('.collapse').addClass('show');
+                // Scroll to top of sidebar
+                $('#sidebar').animate({ scrollTop: 0 }, 500);
+            });
+        });
+    </script>
+</body>
+
+</html>
