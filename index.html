@@ -722,8 +722,9 @@
                 setTimeout(() => {
                     $excelIframe.attr('src', officeViewerUrl);
                     $excelIframe.on('load', function () {
-                        $iframePlaceholder.hide();
+                        $iframePlaceholder.html("");
                         $excelIframe.show();
+
                     });
                 }, 500);
             });
