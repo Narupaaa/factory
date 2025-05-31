@@ -4,7 +4,7 @@
                 id: "region-central",
                 provinces: [
                     {
-                        name: "จ.กรุงเทพมหานคร",
+                        name: "กรุงเทพมหานคร",
                         id: "province-bkk",
                         provinceCode: "10",
                         districts: [
