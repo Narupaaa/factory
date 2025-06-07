@@ -850,65 +850,703 @@ const locationData = [
                 name: "ขอนแก่น",
                 id: "province-khonkaen",
                 provinceCode: "40",
-                districts: []
+                districts: [
+    { name: "อ.เมืองขอนแก่น", districtCode: "1" },
+    { name: "อ.บ้านฝาง", districtCode: "2" },
+    { name: "อ.พระยืน", districtCode: "3" },
+    { name: "อ.หนองเรือ", districtCode: "4" },
+    { name: "อ.ชุมแพ", districtCode: "5" },
+    { name: "อ.สีชมพู", districtCode: "6" },
+    { name: "อ.น้ำพอง", districtCode: "7" },
+    { name: "อ.อุบลรัตน์", districtCode: "8" },
+    { name: "อ.กระนวน", districtCode: "9" },
+    { name: "อ.บ้านไผ่", districtCode: "10" },
+    { name: "อ.เปือยน้อย", districtCode: "11" },
+    { name: "อ.พล", districtCode: "12" },
+    { name: "อ.แวงใหญ่", districtCode: "13" },
+    { name: "อ.แวงน้อย", districtCode: "14" },
+    { name: "อ.หนองสองห้อง", districtCode: "15" },
+    { name: "อ.ภูเวียง", districtCode: "16" },
+    { name: "อ.มัญจาคีรี", districtCode: "17" },
+    { name: "อ.ชนบท", districtCode: "18" },
+    { name: "อ.เขาสวนกวาง", districtCode: "19" },
+    { name: "อ.ภูผาม่าน", districtCode: "20" },
+    { name: "อ.ซำสูง", districtCode: "21" },
+    { name: "อ.โคกโพธิ์ไชย", districtCode: "22" },
+    { name: "อ.หนองนาคำ", districtCode: "23" },
+    { name: "อ.บ้านแฮด", districtCode: "24" },
+    { name: "อ.โนนศิลา", districtCode: "25" },
+    { name: "อ.กิ่งอำเภอภูคำน้อย", districtCode: "26" },
+    { name: "อ.กิ่งอำเภอหนองแก", districtCode: "27" },
+    { name: "อ.กิ่งอำเภอโนนหัน", districtCode: "28" },
+    { name: "อ.เวียงเก่า", districtCode: "29" }
+]
             },
             {
                 name: "อุดรธานี",
                 id: "province-udonthani",
                 provinceCode: "41",
-                districts: []
+                districts: [
+    { name: "อ.เมืองอุดรธานี", districtCode: "1" },
+    { name: "อ.กุดจับ", districtCode: "2" },
+    { name: "อ.หนองวัวซอ", districtCode: "3" },
+    { name: "อ.กุมภวาปี", districtCode: "4" },
+    { name: "อ.โนนสะอาด", districtCode: "5" },
+    { name: "อ.หนองหาน", districtCode: "6" },
+    { name: "อ.ทุ่งฝน", districtCode: "7" },
+    { name: "อ.ไชยวาน", districtCode: "8" },
+    { name: "อ.ศรีธาตุ", districtCode: "9" },
+    { name: "อ.วังสามหมอ", districtCode: "10" },
+    { name: "อ.บ้านดุง", districtCode: "11" },
+    { name: "อ.บ้านผือ", districtCode: "17" },
+    { name: "อ.น้ำโสม", districtCode: "18" },
+    { name: "อ.เพ็ญ", districtCode: "19" },
+    { name: "อ.สร้างคอม", districtCode: "20" },
+    { name: "อ.หนองแสง", districtCode: "21" },
+    { name: "อ.นายูง", districtCode: "22" },
+    { name: "อ.พิบูลย์รักษ์", districtCode: "23" },
+    { name: "อ.กู่แก้ว", districtCode: "24" },
+    { name: "อ.ประจักษ์ศิลปาคม", districtCode: "25" },
+    { name: "อ.กิ่งอำเภอภูพระบาท", districtCode: "26" },
+    { name: "อ.กิ่งอำเภอวังสายไหม", districtCode: "27" }
+]
             },
             {
                 name: "เลย",
                 id: "province-loei",
                 provinceCode: "42",
-                districts: []
+                districts: [
+    { name: "อ.เมืองเลย", districtCode: "1" },
+    { name: "อ.นาด้วง", districtCode: "2" },
+    { name: "อ.เชียงคาน", districtCode: "3" },
+    { name: "อ.ปากชม", districtCode: "4" },
+    { name: "อ.ด่านซ้าย", districtCode: "5" },
+    { name: "อ.นาแห้ว", districtCode: "6" },
+    { name: "อ.ภูเรือ", districtCode: "7" },
+    { name: "อ.ท่าลี่", districtCode: "8" },
+    { name: "อ.วังสะพุง", districtCode: "9" },
+    { name: "อ.ภูกระดึง", districtCode: "10" },
+    { name: "อ.ภูหลวง", districtCode: "11" },
+    { name: "อ.ผาขาว", districtCode: "12" },
+    { name: "อ.เอราวัณ", districtCode: "13" },
+    { name: "อ.หนองหิน", districtCode: "14" }
+]
             },
             {
                 name: "หนองคาย",
                 id: "province-nongkhai",
                 provinceCode: "43",
-                districts: []
+                districts: [
+    { name: "อ.เมืองหนองคาย", districtCode: "1" },
+    { name: "อ.ท่าบ่อ", districtCode: "2" },
+    { name: "อ.โพนพิสัย", districtCode: "5" },
+    { name: "อ.ศรีเชียงใหม่", districtCode: "7" },
+    { name: "อ.สังคม", districtCode: "8" },
+    { name: "อ.สระใคร", districtCode: "14" },
+    { name: "อ.เฝ้าไร่", districtCode: "15" },
+    { name: "อ.รัตนวาปี", districtCode: "16" },
+    { name: "อ.โพธิ์ตาก", districtCode: "17" },
+    { name: "อ.กิ่งอำเภอเจ็ดสี", districtCode: "19" },
+    { name: "อ.กิ่งอำเภอสามแยกสีชมภู", districtCode: "20" },
+    { name: "อ.กิ่งอำเภอหอคำ", districtCode: "21" }
+]
             },
             {
                 name: "มหาสารคาม",
                 id: "province-mahasarakham",
                 provinceCode: "44",
-                districts: []
+                districts: [
+    { name: "อ.เมืองมหาสารคาม", districtCode: "1" },
+    { name: "อ.แกดำ", districtCode: "2" },
+    { name: "อ.โกสุมพิสัย", districtCode: "3" },
+    { name: "อ.กันทรวิชัย", districtCode: "4" },
+    { name: "อ.เชียงยืน", districtCode: "5" },
+    { name: "อ.บรบือ", districtCode: "6" },
+    { name: "อ.นาเชือก", districtCode: "7" },
+    { name: "อ.พยัคฆภูมิพิสัย", districtCode: "8" },
+    { name: "อ.วาปีปทุม", districtCode: "9" },
+    { name: "อ.นาดูน", districtCode: "10" },
+    { name: "อ.ยางสีสุราช", districtCode: "11" },
+    { name: "อ.กุดรัง", districtCode: "12" },
+    { name: "อ.ชื่นชม", districtCode: "13" }
+]
             },
             {
                 name: "ร้อยเอ็ด",
                 id: "province-roiet",
                 provinceCode: "45",
-                districts: []
+                districts: [
+    { name: "อ.เมืองร้อยเอ็ด", districtCode: "1" },
+    { name: "อ.เกษตรวิสัย", districtCode: "2" },
+    { name: "อ.ปทุมรัตต์", districtCode: "3" },
+    { name: "อ.จตุรพักตรพิมาน", districtCode: "4" },
+    { name: "อ.ธวัชบุรี", districtCode: "5" },
+    { name: "อ.พนมไพร", districtCode: "6" },
+    { name: "อ.โพนทอง", districtCode: "7" },
+    { name: "อ.โพธิ์ชัย", districtCode: "8" },
+    { name: "อ.หนองพอก", districtCode: "9" },
+    { name: "อ.เสลภูมิ", districtCode: "10" },
+    { name: "อ.สุวรรณภูมิ", districtCode: "11" },
+    { name: "อ.เมืองสรวง", districtCode: "12" },
+    { name: "อ.โพนทราย", districtCode: "13" },
+    { name: "อ.อาจสามารถ", districtCode: "14" },
+    { name: "อ.เมยวดี", districtCode: "15" },
+    { name: "อ.ศรีสมเด็จ", districtCode: "16" },
+    { name: "อ.จังหาร", districtCode: "17" },
+    { name: "อ.เชียงขวัญ", districtCode: "18" },
+    { name: "อ.หนองฮี", districtCode: "19" },
+    { name: "อ.ทุ่งเขาหลวง", districtCode: "20" },
+    { name: "อ.กิ่งอำเภอหนองบัวบูรพา", districtCode: "21" }
+]
             },
             {
                 name: "กาฬสินธุ์",
                 id: "province-kalasin",
                 provinceCode: "46",
-                districts: []
+                districts: [
+    { name: "อ.เมืองกาฬสินธุ์", districtCode: "1" },
+    { name: "อ.นามน", districtCode: "2" },
+    { name: "อ.กมลาไสย", districtCode: "3" },
+    { name: "อ.ร่องคำ", districtCode: "4" },
+    { name: "อ.กุฉินารายณ์", districtCode: "5" },
+    { name: "อ.เขาวง", districtCode: "6" },
+    { name: "อ.ยางตลาด", districtCode: "7" },
+    { name: "อ.ห้วยเม็ก", districtCode: "8" },
+    { name: "อ.สหัสขันธ์", districtCode: "9" },
+    { name: "อ.คำม่วง", districtCode: "10" },
+    { name: "อ.ท่าคันโท", districtCode: "11" },
+    { name: "อ.หนองกุงศรี", districtCode: "12" },
+    { name: "อ.สมเด็จ", districtCode: "13" },
+    { name: "อ.ห้วยผึ้ง", districtCode: "14" },
+    { name: "อ.สามชัย", districtCode: "15" },
+    { name: "อ.นาคู", districtCode: "16" },
+    { name: "อ.ดอนจาน", districtCode: "17" },
+    { name: "อ.ฆ้องชัย", districtCode: "18" },
+    { name: "อ.กิ่งอำเภอลำปาว", districtCode: "19" },
+    { name: "อ.กิ่งอำเภอดงมูล", districtCode: "20" },
+    { name: "อ.กิ่งอำเภอนาขาม", districtCode: "21" },
+    { name: "อ.กิ่งอำเภอเขาพระนอน", districtCode: "22" },
+    { name: "อ.กิ่งอำเภอลำน้ำดอกไม้", districtCode: "23" },
+    { name: "อ.กิ่งอำเภอคำใหญ่", districtCode: "24" }
+]
             },
             {
                 name: "สกลนคร",
                 id: "province-sakonnakhon",
                 provinceCode: "47",
-                districts: []
+                districts: [
+    { name: "อ.เมืองสกลนคร", districtCode: "1" },
+    { name: "อ.กุสุมาลย์", districtCode: "2" },
+    { name: "อ.กุดบาก", districtCode: "3" },
+    { name: "อ.พรรณานิคม", districtCode: "4" },
+    { name: "อ.พังโคน", districtCode: "5" },
+    { name: "อ.วาริชภูมิ", districtCode: "6" },
+    { name: "อ.นิคมน้ำอูน", districtCode: "7" },
+    { name: "อ.วานรนิวาส", districtCode: "8" },
+    { name: "อ.คำตากล้า", districtCode: "9" },
+    { name: "อ.บ้านม่วง", districtCode: "10" },
+    { name: "อ.อากาศอำนวย", districtCode: "11" },
+    { name: "อ.สว่างแดนดิน", districtCode: "12" },
+    { name: "อ.ส่องดาว", districtCode: "13" },
+    { name: "อ.เต่างอย", districtCode: "14" },
+    { name: "อ.โคกศรีสุพรรณ", districtCode: "15" },
+    { name: "อ.เจริญศิลป์", districtCode: "16" },
+    { name: "อ.โพนนาแก้ว", districtCode: "17" },
+    { name: "อ.ภูพาน", districtCode: "18" },
+    { name: "อ.กิ่งอำเภอห้วยไร่", districtCode: "19" }
+]
             },
             {
                 name: "นครพนม",
                 id: "province-nakhonphanom",
                 provinceCode: "48",
-                districts: []
+                districts: [
+    { name: "อ.เมืองนครพนม", districtCode: "1" },
+    { name: "อ.ปลาปาก", districtCode: "2" },
+    { name: "อ.ท่าอุเทน", districtCode: "3" },
+    { name: "อ.บ้านแพง", districtCode: "4" },
+    { name: "อ.ธาตุพนม", districtCode: "5" },
+    { name: "อ.เรณูนคร", districtCode: "6" },
+    { name: "อ.นาแก", districtCode: "7" },
+    { name: "อ.ศรีสงคราม", districtCode: "8" },
+    { name: "อ.นาหว้า", districtCode: "9" },
+    { name: "อ.โพนสวรรค์", districtCode: "10" },
+    { name: "อ.นาทม", districtCode: "11" },
+    { name: "อ.วังยาง", districtCode: "12" }
+]
             },
             {
                 name: "มุกดาหาร",
                 id: "province-mukdahan",
                 provinceCode: "49",
-                districts: []
+                districts: [
+    { name: "อ.เมืองมุกดาหาร", districtCode: "1" },
+    { name: "อ.นิคมคำสร้อย", districtCode: "2" },
+    { name: "อ.ดอนตาล", districtCode: "3" },
+    { name: "อ.ดงหลวง", districtCode: "4" },
+    { name: "อ.คำชะอี", districtCode: "5" },
+    { name: "อ.หว้านใหญ่", districtCode: "6" },
+    { name: "อ.หนองสูง", districtCode: "7" }
+]
             }
         ]
     },
-    { name: "ภาคตะวันออก", id: "region-east", provinces: [] },
-    { name: "ภาคตะวันตก", id: "region-west", provinces: [] },
-    { name: "ภาคใต้", id: "region-south", provinces: [] }
-];
+    { name: "ภาคตะวันออก", id: "region-east", provinces: 
+[
+    {
+    name: "ชลบุรี",
+    id: "province-chonburi",
+    provinceCode: "20",
+    districts: [
+        { name: "อ.เมืองชลบุรี", districtCode: "1" },
+        { name: "อ.บ้านบึง", districtCode: "2" },
+        { name: "อ.หนองใหญ่", districtCode: "3" },
+        { name: "อ.บางละมุง", districtCode: "4" },
+        { name: "อ.พานทอง", districtCode: "5" },
+        { name: "อ.พนัสนิคม", districtCode: "6" },
+        { name: "อ.ศรีราชา", districtCode: "7" },
+        { name: "อ.เกาะสีชัง", districtCode: "8" },
+        { name: "อ.สัตหีบ", districtCode: "9" },
+        { name: "อ.บ่อทอง", districtCode: "10" },
+        { name: "อ.เกาะจันทร์", districtCode: "11" }
+    ]
+},
+    {
+    name: "ระยอง",
+    id: "province-rayong",
+    provinceCode: "21",
+    districts: [
+        { name: "อ.เมืองระยอง", districtCode: "1" },
+        { name: "อ.บ้านฉาง", districtCode: "2" },
+        { name: "อ.แกลง", districtCode: "3" },
+        { name: "อ.วังจันทร์", districtCode: "4" },
+        { name: "อ.บ้านค่าย", districtCode: "5" },
+        { name: "อ.ปลวกแดง", districtCode: "6" },
+        { name: "อ.เขาชะเมา", districtCode: "7" },
+        { name: "อ.นิคมพัฒนา", districtCode: "8" }
+    ]
+},
+    {
+    name: "จันทบุรี",
+    id: "province-chanthaburi",
+    provinceCode: "22",
+    districts: [
+        { name: "อ.เมืองจันทบุรี", districtCode: "1" },
+        { name: "อ.ขลุง", districtCode: "2" },
+        { name: "อ.ท่าใหม่", districtCode: "3" },
+        { name: "อ.โป่งน้ำร้อน", districtCode: "4" },
+        { name: "อ.มะขาม", districtCode: "5" },
+        { name: "อ.แหลมสิงห์", districtCode: "6" },
+        { name: "อ.สอยดาว", districtCode: "7" },
+        { name: "อ.แก่งหางแมว", districtCode: "8" },
+        { name: "อ.นายายอาม", districtCode: "9" },
+        { name: "อ.เขาคิชฌกูฏ", districtCode: "10" }
+    ]
+},
+    {
+    name: "ตราด",
+    id: "province-trat",
+    provinceCode: "23",
+    districts: [
+        { name: "อ.เมืองตราด", districtCode: "1" },
+        { name: "อ.คลองใหญ่", districtCode: "2" },
+        { name: "อ.เขาสมิง", districtCode: "3" },
+        { name: "อ.บ่อไร่", districtCode: "4" },
+        { name: "อ.แหลมงอบ", districtCode: "5" },
+        { name: "อ.เกาะกูด", districtCode: "6" },
+        { name: "อ.เกาะช้าง", districtCode: "7" }
+    ]
+},
+    {
+    name: "ฉะเชิงเทรา",
+    id: "province-chachoengsao",
+    provinceCode: "24",
+    districts: [
+        { name: "อ.เมืองฉะเชิงเทรา", districtCode: "1" },
+        { name: "อ.บางคล้า", districtCode: "2" },
+        { name: "อ.บางน้ำเปรี้ยว", districtCode: "3" },
+        { name: "อ.บางปะกง", districtCode: "4" },
+        { name: "อ.บ้านโพธิ์", districtCode: "5" },
+        { name: "อ.พนมสารคาม", districtCode: "6" },
+        { name: "อ.ราชสาส์น", districtCode: "7" },
+        { name: "อ.สนามชัยเขต", districtCode: "8" },
+        { name: "อ.แปลงยาว", districtCode: "9" },
+        { name: "อ.ท่าตะเกียบ", districtCode: "10" },
+        { name: "อ.คลองเขื่อน", districtCode: "11" }
+    ]
+},
+    {
+    name: "ปราจีนบุรี",
+    id: "province-prachinburi",
+    provinceCode: "25",
+    districts: [
+        { name: "อ.เมืองปราจีนบุรี", districtCode: "1" },
+        { name: "อ.กบินทร์บุรี", districtCode: "2" },
+        { name: "อ.นาดี", districtCode: "3" },
+        { name: "อ.บ้านสร้าง", districtCode: "6" },
+        { name: "อ.ประจันตคาม", districtCode: "7" },
+        { name: "อ.ศรีมหาโพธิ", districtCode: "8" },
+        { name: "อ.ศรีมโหสถ", districtCode: "9" }
+    ]
+},
+    {
+    name: "สระแก้ว",
+    id: "province-sakaeo",
+    provinceCode: "27",
+    districts: [
+        { name: "อ.เมืองสระแก้ว", districtCode: "1" },
+        { name: "อ.คลองหาด", districtCode: "2" },
+        { name: "อ.ตาพระยา", districtCode: "3" },
+        { name: "อ.วังน้ำเย็น", districtCode: "4" },
+        { name: "อ.วัฒนานคร", districtCode: "5" },
+        { name: "อ.อรัญประเทศ", districtCode: "6" },
+        { name: "อ.เขาฉกรรจ์", districtCode: "7" },
+        { name: "อ.โคกสูง", districtCode: "8" },
+        { name: "อ.วังสมบูรณ์", districtCode: "9" }
+    ]
+},
+   {
+    name: "ตาก",
+    id: "province-tak",
+    provinceCode: "63",
+    districts: [
+        { name: "อ.เมืองตาก", districtCode: "1" },
+        { name: "อ.บ้านตาก", districtCode: "2" },
+        { name: "อ.สามเงา", districtCode: "3" },
+        { name: "อ.แม่ระมาด", districtCode: "4" },
+        { name: "อ.ท่าสองยาง", districtCode: "5" },
+        { name: "อ.แม่สอด", districtCode: "6" },
+        { name: "อ.พบพระ", districtCode: "7" },
+        { name: "อ.อุ้มผาง", districtCode: "8" },
+        { name: "อ.วังเจ้า", districtCode: "9" },
+        { name: "อ.กิ่งอำเภอวังประจบ", districtCode: "10" },
+        { name: "อ.กิ่งอำเภอด่านแม่ละเมา", districtCode: "11" }
+    ]
+},
+    {
+    name: "ราชบุรี",
+    id: "province-ratchaburi",
+    provinceCode: "70",
+    districts: [
+        { name: "อ.เมืองราชบุรี", districtCode: "1" },
+        { name: "อ.จอมบึง", districtCode: "2" },
+        { name: "อ.สวนผึ้ง", districtCode: "3" },
+        { name: "อ.ดำเนินสะดวก", districtCode: "4" },
+        { name: "อ.บ้านโป่ง", districtCode: "5" },
+        { name: "อ.บางแพ", districtCode: "6" },
+        { name: "อ.โพธาราม", districtCode: "7" },
+        { name: "อ.ปากท่อ", districtCode: "8" },
+        { name: "อ.วัดเพลง", districtCode: "9" },
+        { name: "อ.บ้านคา", districtCode: "10" }
+    ]
+},
+    {
+    name: "กาญจนบุรี",
+    id: "province-kanchanaburi",
+    provinceCode: "71",
+    districts: [
+        { name: "อ.เมืองกาญจนบุรี", districtCode: "1" },
+        { name: "อ.ไทรโยค", districtCode: "2" },
+        { name: "อ.บ่อพลอย", districtCode: "3" },
+        { name: "อ.ศรีสวัสดิ์", districtCode: "4" },
+        { name: "อ.ท่ามะกา", districtCode: "5" },
+        { name: "อ.ท่าม่วง", districtCode: "6" },
+        { name: "อ.ทองผาภูมิ", districtCode: "7" },
+        { name: "อ.สังขละบุรี", districtCode: "8" },
+        { name: "อ.พนมทวน", districtCode: "9" },
+        { name: "อ.เลาขวัญ", districtCode: "10" },
+        { name: "อ.ด่านมะขามเตี้ย", districtCode: "11" },
+        { name: "อ.หนองปรือ", districtCode: "12" },
+        { name: "อ.ห้วยกระเจา", districtCode: "13" }
+    ]
+},
+    {
+    name: "เพชรบุรี",
+    id: "province-phetchaburi",
+    provinceCode: "76",
+    districts: [
+        { name: "อ.เมืองเพชรบุรี", districtCode: "1" },
+        { name: "อ.เขาย้อย", districtCode: "2" },
+        { name: "อ.หนองหญ้าปล้อง", districtCode: "3" },
+        { name: "อ.ชะอำ", districtCode: "4" },
+        { name: "อ.ท่ายาง", districtCode: "5" },
+        { name: "อ.บ้านลาด", districtCode: "6" },
+        { name: "อ.บ้านแหลม", districtCode: "7" },
+        { name: "อ.แก่งกระจาน", districtCode: "8" }
+    ]
+},
+   {
+    name: "ประจวบคีรีขันธ์",
+    id: "province-prachuap-khiri-khan",
+    provinceCode: "77",
+    districts: [
+        { name: "อ.เมืองประจวบคีรีขันธ์", districtCode: "1" },
+        { name: "อ.กุยบุรี", districtCode: "2" },
+        { name: "อ.ทับสะแก", districtCode: "3" },
+        { name: "อ.บางสะพาน", districtCode: "4" },
+        { name: "อ.บางสะพานน้อย", districtCode: "5" },
+        { name: "อ.ปราณบุรี", districtCode: "6" },
+        { name: "อ.หัวหิน", districtCode: "7" },
+        { name: "อ.สามร้อยยอด", districtCode: "8" }
+    ]
+},
+    { name: "ภาคใต้", id: "region-south", provinces: [
+   {
+    name: "นครศรีธรรมราช",
+    id: "province-nakhon-si-thammarat",
+    provinceCode: "80",
+    districts: [
+        { name: "อ.เมืองนครศรีธรรมราช", districtCode: "1" },
+        { name: "อ.พรหมคีรี", districtCode: "2" },
+        { name: "อ.ลานสกา", districtCode: "3" },
+        { name: "อ.ฉวาง", districtCode: "4" },
+        { name: "อ.พิปูน", districtCode: "5" },
+        { name: "อ.เชียรใหญ่", districtCode: "6" },
+        { name: "อ.ชะอวด", districtCode: "7" },
+        { name: "อ.ท่าศาลา", districtCode: "8" },
+        { name: "อ.ทุ่งสง", districtCode: "9" },
+        { name: "อ.นาบอน", districtCode: "10" },
+        { name: "อ.ทุ่งใหญ่", districtCode: "11" },
+        { name: "อ.ปากพนัง", districtCode: "12" },
+        { name: "อ.ร่อนพิบูลย์", districtCode: "13" },
+        { name: "อ.สิชล", districtCode: "14" },
+        { name: "อ.ขนอม", districtCode: "15" },
+        { name: "อ.หัวไทร", districtCode: "16" },
+        { name: "อ.บางขัน", districtCode: "17" },
+        { name: "อ.ถ้ำพรรณรา", districtCode: "18" },
+        { name: "อ.จุฬาภรณ์", districtCode: "19" },
+        { name: "อ.พระพรหม", districtCode: "20" },
+        { name: "อ.นบพิตำ", districtCode: "21" },
+        { name: "อ.ช้างกลาง", districtCode: "22" },
+        { name: "อ.เฉลิมพระเกียรติ", districtCode: "23" },
+        { name: "อ.กิ่งอำเภอกะปาง", districtCode: "24" },
+        { name: "อ.กิ่งอำเภอราษฎร์ภักดี", districtCode: "25" },
+        { name: "อ.กิ่งอำเภอกลาย", districtCode: "26" },
+        { name: "อ.กิ่งอำเภอนาหลวง", districtCode: "27" }
+    ]
+},
+    {
+    name: "กระบี่",
+    id: "province-krabi",
+    provinceCode: "81",
+    districts: [
+        { name: "อ.เมืองกระบี่", districtCode: "1" },
+        { name: "อ.เขาพนม", districtCode: "2" },
+        { name: "อ.เกาะลันตา", districtCode: "3" },
+        { name: "อ.คลองท่อม", districtCode: "4" },
+        { name: "อ.อ่าวลึก", districtCode: "5" },
+        { name: "อ.ปลายพระยา", districtCode: "6" },
+        { name: "อ.ลำทับ", districtCode: "7" },
+        { name: "อ.เหนือคลอง", districtCode: "8" }
+    ]
+},
+    {
+    name: "พังงา",
+    id: "province-phangnga",
+    provinceCode: "82",
+    districts: [
+        { name: "อ.เมืองพังงา", districtCode: "1" },
+        { name: "อ.เกาะยาว", districtCode: "2" },
+        { name: "อ.กะปง", districtCode: "3" },
+        { name: "อ.ตะกั่วทุ่ง", districtCode: "4" },
+        { name: "อ.ตะกั่วป่า", districtCode: "5" },
+        { name: "อ.คุระบุรี", districtCode: "6" },
+        { name: "อ.ทับปุด", districtCode: "7" },
+        { name: "อ.ท้ายเหมือง", districtCode: "8" },
+        { name: "อ.กิ่งอำเภอโคกกลอย", districtCode: "9" }
+    ]
+},
+    {
+    name: "ภูเก็ต",
+    id: "province-phuket",
+    provinceCode: "83",
+    districts: [
+        { name: "อ.เมืองภูเก็ต", districtCode: "1" },
+        { name: "อ.กะทู้", districtCode: "2" },
+        { name: "อ.ถลาง", districtCode: "3" }
+    ]
+},
+    {
+    name: "สุราษฎร์ธานี",
+    id: "province-surat-thani",
+    provinceCode: "84",
+    districts: [
+        { name: "อ.เมืองสุราษฎร์ธานี", districtCode: "1" },
+        { name: "อ.กาญจนดิษฐ์", districtCode: "2" },
+        { name: "อ.ดอนสัก", districtCode: "3" },
+        { name: "อ.เกาะสมุย", districtCode: "4" },
+        { name: "อ.เกาะพะงัน", districtCode: "5" },
+        { name: "อ.ไชยา", districtCode: "6" },
+        { name: "อ.ท่าชนะ", districtCode: "7" },
+        { name: "อ.คีรีรัฐนิคม", districtCode: "8" },
+        { name: "อ.บ้านตาขุน", districtCode: "9" },
+        { name: "อ.พนม", districtCode: "10" },
+        { name: "อ.ท่าฉาง", districtCode: "11" },
+        { name: "อ.บ้านนาสาร", districtCode: "12" },
+        { name: "อ.บ้านนาเดิม", districtCode: "13" },
+        { name: "อ.เคียนซา", districtCode: "14" },
+        { name: "อ.เวียงสระ", districtCode: "15" },
+        { name: "อ.พระแสง", districtCode: "16" },
+        { name: "อ.พุนพิน", districtCode: "17" },
+        { name: "อ.ชัยบุรี", districtCode: "18" },
+        { name: "อ.วิภาวดี", districtCode: "19" },
+        { name: "อ.กิ่งอำเภอท่าโรงช้าง", districtCode: "20" },
+        { name: "อ.กิ่งอำเภอบางสวรรค์", districtCode: "21" }
+    ]
+},
+    {
+    name: "ระนอง",
+    id: "province-ranong",
+    provinceCode: "85",
+    districts: [
+        { name: "อ.เมืองระนอง", districtCode: "1" },
+        { name: "อ.ละอุ่น", districtCode: "2" },
+        { name: "อ.กะเปอร์", districtCode: "3" },
+        { name: "อ.กระบุรี", districtCode: "4" },
+        { name: "อ.สุขสำราญ", districtCode: "5" }
+    ]
+},
+    {
+    name: "ชุมพร",
+    id: "province-chumphon",
+    provinceCode: "86",
+    districts: [
+        { name: "อ.เมืองชุมพร", districtCode: "1" },
+        { name: "อ.ท่าแซะ", districtCode: "2" },
+        { name: "อ.ปะทิว", districtCode: "3" },
+        { name: "อ.หลังสวน", districtCode: "4" },
+        { name: "อ.ละแม", districtCode: "5" },
+        { name: "อ.พะโต๊ะ", districtCode: "6" },
+        { name: "อ.สวี", districtCode: "7" },
+        { name: "อ.ทุ่งตะโก", districtCode: "8" }
+    ]
+},
+    {
+    name: "สงขลา",
+    id: "province-songkhla",
+    provinceCode: "90",
+    districts: [
+        { name: "อ.เมืองสงขลา", districtCode: "1" },
+        { name: "อ.สทิงพระ", districtCode: "2" },
+        { name: "อ.จะนะ", districtCode: "3" },
+        { name: "อ.นาทวี", districtCode: "4" },
+        { name: "อ.เทพา", districtCode: "5" },
+        { name: "อ.สะบ้าย้อย", districtCode: "6" },
+        { name: "อ.ระโนด", districtCode: "7" },
+        { name: "อ.กระแสสินธุ์", districtCode: "8" },
+        { name: "อ.รัตภูมิ", districtCode: "9" },
+        { name: "อ.สะเดา", districtCode: "10" },
+        { name: "อ.หาดใหญ่", districtCode: "11" },
+        { name: "อ.นาหม่อม", districtCode: "12" },
+        { name: "อ.ควนเนียง", districtCode: "13" },
+        { name: "อ.บางกล่ำ", districtCode: "14" },
+        { name: "อ.สิงหนคร", districtCode: "15" },
+        { name: "อ.คลองหอยโข่ง", districtCode: "16" }
+    ]
+},
+    {
+    name: "สตูล",
+    id: "province-satun",
+    provinceCode: "91",
+    districts: [
+        { name: "อ.เมืองสตูล", districtCode: "1" },
+        { name: "อ.ควนโดน", districtCode: "2" },
+        { name: "อ.ควนกาหลง", districtCode: "3" },
+        { name: "อ.ท่าแพ", districtCode: "4" },
+        { name: "อ.ละงู", districtCode: "5" },
+        { name: "อ.ทุ่งหว้า", districtCode: "6" },
+        { name: "อ.มะนัง", districtCode: "7" }
+    ]
+},
+   {
+    name: "ตรัง",
+    id: "province-trang",
+    provinceCode: "92",
+    districts: [
+        { name: "อ.เมืองตรัง", districtCode: "1" },
+        { name: "อ.กันตัง", districtCode: "2" },
+        { name: "อ.ย่านตาขาว", districtCode: "3" },
+        { name: "อ.ปะเหลียน", districtCode: "4" },
+        { name: "อ.สิเกา", districtCode: "5" },
+        { name: "อ.ห้วยยอด", districtCode: "6" },
+        { name: "อ.วังวิเศษ", districtCode: "7" },
+        { name: "อ.นาโยง", districtCode: "8" },
+        { name: "อ.รัษฎา", districtCode: "9" },
+        { name: "อ.หาดสำราญ", districtCode: "10" },
+        { name: "อ.กิ่งอำเภอบางดี่", districtCode: "11" },
+        { name: "อ.กิ่งอำเภอนาวัง", districtCode: "12" }
+    ]
+},
+    {
+    name: "พัทลุง",
+    id: "province-phatthalung",
+    provinceCode: "93",
+    districts: [
+        { name: "อ.เมืองพัทลุง", districtCode: "1" },
+        { name: "อ.กงหรา", districtCode: "2" },
+        { name: "อ.เขาชัยสน", districtCode: "3" },
+        { name: "อ.ตะโหมด", districtCode: "4" },
+        { name: "อ.ควนขนุน", districtCode: "5" },
+        { name: "อ.ปากพะยูน", districtCode: "6" },
+        { name: "อ.ศรีบรรพต", districtCode: "7" },
+        { name: "อ.ป่าบอน", districtCode: "8" },
+        { name: "อ.บางแก้ว", districtCode: "9" },
+        { name: "อ.ป่าพะยอม", districtCode: "10" },
+        { name: "อ.ศรีนครินทร์", districtCode: "11" }
+    ]
+},
+    {
+    name: "ปัตตานี",
+    id: "province-pattani",
+    provinceCode: "94",
+    districts: [
+        { name: "อ.เมืองปัตตานี", districtCode: "1" },
+        { name: "อ.โคกโพธิ์", districtCode: "2" },
+        { name: "อ.หนองจิก", districtCode: "3" },
+        { name: "อ.ปะนาเระ", districtCode: "4" },
+        { name: "อ.มายอ", districtCode: "5" },
+        { name: "อ.ทุ่งยางแดง", districtCode: "6" },
+        { name: "อ.สายบุรี", districtCode: "7" },
+        { name: "อ.ไม้แก่น", districtCode: "8" },
+        { name: "อ.ยะหริ่ง", districtCode: "9" },
+        { name: "อ.ยะรัง", districtCode: "10" },
+        { name: "อ.กะพ้อ", districtCode: "11" },
+        { name: "อ.แม่ลาน", districtCode: "12" }
+    ]
+},
+    {
+    name: "ยะลา",
+    id: "province-yala",
+    provinceCode: "95",
+    districts: [
+        { name: "อ.เมืองยะลา", districtCode: "1" },
+        { name: "อ.เบตง", districtCode: "2" },
+        { name: "อ.บันนังสตา", districtCode: "3" },
+        { name: "อ.ธารโต", districtCode: "4" },
+        { name: "อ.ยะหา", districtCode: "5" },
+        { name: "อ.รามัน", districtCode: "6" },
+        { name: "อ.กาบัง", districtCode: "7" },
+        { name: "อ.กรงปินัง", districtCode: "8" }
+    ]
+},
+   {
+    name: "นราธิวาส",
+    id: "province-narathiwat",
+    provinceCode: "96",
+    districts: [
+        { name: "อ.เมืองนราธิวาส", districtCode: "1" },
+        { name: "อ.ตากใบ", districtCode: "2" },
+        { name: "อ.บาเจาะ", districtCode: "3" },
+        { name: "อ.ยี่งอ", districtCode: "4" },
+        { name: "อ.ระแงะ", districtCode: "5" },
+        { name: "อ.รือเสาะ", districtCode: "6" },
+        { name: "อ.ศรีสาคร", districtCode: "7" },
+        { name: "อ.แว้ง", districtCode: "8" },
+        { name: "อ.สุคิริน", districtCode: "9" },
+        { name: "อ.สุไหงโก-ลก", districtCode: "10" },
+        { name: "อ.สุไหงปาดี", districtCode: "11" },
+        { name: "อ.จะแนะ", districtCode: "12" },
+        { name: "อ.เจาะไอร้อง", districtCode: "13" }
+    ]
+}
+] }
